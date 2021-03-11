@@ -3,7 +3,8 @@ import moment from 'moment';
 import { Table } from 'react-bootstrap';
 import Api from '../../services/api';
 import { Badge, Button } from 'react-bootstrap';
-
+import './index'
+import { useHistory } from 'react-router-dom';
 
 interface ITask {
     id: number;
@@ -17,7 +18,7 @@ interface ITask {
 const Tasks: React.FC = () => {
 
     const [tasks, setTasks] = useState<ITask[]>([])
-
+    const history = useHistory()
     useEffect(() => {
         loadTasks()
     }, [])
@@ -31,11 +32,22 @@ const Tasks: React.FC = () => {
     function formatDate(date: Date) {
         return moment(date).format("DD/MM/YYYY")
     }
+
+    function newTask() {
+        history.push('/form');
+    }
+
+    function editTask(id: number) {
+        history.push(`/form/${id}`)
+    }
     
     return (
-        <>
+        <div className="container">
             <br />
-            <h1 className="container">Tasks Page</h1>
+            <div className="tasks-header">
+                <h1>Tasks Page</h1>
+                <Button variant="dark" onClick={newTask}>Add Task</Button>
+            </div>
             <br />
             <Table striped bordered hover className="text-center">
                 <thead>
@@ -58,7 +70,7 @@ const Tasks: React.FC = () => {
                                 { task.finished ? 'Finished': 'Pending'}
                                 </Badge></td>
                                 <td>
-                                    <Button size="sm">Edit</Button>{' '}
+                                    <Button size="sm" onClick={() => editTask(task.id)}>Edit</Button>{' '}
                                     <Button size="sm" variant="success">Finished</Button>{' '}
                                     <Button size="sm" variant="danger">Remove</Button>{' '}
                                 </td>
@@ -67,7 +79,7 @@ const Tasks: React.FC = () => {
                 }
                 </tbody>
             </Table>
-        </>
+        </div>
         )
 }
 
