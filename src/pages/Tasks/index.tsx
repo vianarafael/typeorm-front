@@ -40,6 +40,8 @@ const Tasks: React.FC = () => {
     function editTask(id: number) {
         history.push(`/form/${id}`)
     }
+
+    console.log(tasks)
     
     return (
         <div className="container">
@@ -61,21 +63,25 @@ const Tasks: React.FC = () => {
                 </thead>
                 <tbody>
                 {
-                    tasks.map(task => {
-                        <tr key={task.id}>
-                            <td>{task.id}</td>
-                            <td>{task.title}</td>
-                            <td>{formatDate(task.updated_at)}</td>
-                            <td><Badge variant={task.finished ? "success" : "warning"}>
-                                { task.finished ? 'Finished': 'Pending'}
-                                </Badge></td>
-                                <td>
-                                    <Button size="sm" onClick={() => editTask(task.id)}>Edit</Button>{' '}
-                                    <Button size="sm" variant="success">Finished</Button>{' '}
-                                    <Button size="sm" variant="danger">Remove</Button>{' '}
-                                </td>
-                        </tr>       
+                    tasks ? tasks.map(task => {
+                        
+                        return (
+                            <tr key={task.id}>
+                                <td>{task.id}</td>
+                                <td>{task.title}</td>
+                                <td>{formatDate(task.updated_at)}</td>
+                                <td><Badge variant={task.finished ? "success" : "warning"}>
+                                    { task.finished ? 'Finished': 'Pending'}
+                                    </Badge></td>
+                                    <td>
+                                        <Button size="sm" onClick={() => editTask(task.id)}>Edit</Button>{' '}
+                                        <Button size="sm" variant="success">Finished</Button>{' '}
+                                        <Button size="sm" variant="danger">Remove</Button>{' '}
+                                    </td>
+                            </tr>    
+                        )   
                     })
+                    : ''
                 }
                 </tbody>
             </Table>
